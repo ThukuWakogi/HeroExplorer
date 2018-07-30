@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using HeroExplorer.Models;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -25,6 +26,11 @@ namespace HeroExplorer
         public MainPage()
         {
             this.InitializeComponent();
+        }
+
+        private async void Button_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            var data =await MarvelFacade.GetCharacterListAsync();
         }
     }
 }

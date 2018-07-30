@@ -98,6 +98,19 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Character.cs" />
+    <Compile Include="Models\CharacterDataContainer.cs" />
+    <Compile Include="Models\CharacterDataWrapper.cs" />
+    <Compile Include="Models\Comics.cs" />
+    <Compile Include="Models\ComicsItem.cs" />
+    <Compile Include="Models\Convertor.cs" />
+    <Compile Include="Models\MarvelFacade.cs" />
+    <Compile Include="Models\Stories.cs" />
+    <Compile Include="Models\StoriesItem.cs" />
+    <Compile Include="Models\Thumbnail.cs" />
+    <Compile Include="Models\TypeEnum.cs" />
+    <Compile Include="Models\TypeEnumConverter.cs" />
+    <Compile Include="Models\Url.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -127,8 +140,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Net.Http">
+      <Version>2.2.29</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.5</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>11.0.2</Version>
     </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

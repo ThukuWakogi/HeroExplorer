@@ -9,5 +9,8 @@ namespace HeroExplorer.Models
 
         [JsonProperty("extension")]
         public string Extension { get; set; }
+
+        public string Small { get; set; }
+        public string Large { get; set; }
     }
 }

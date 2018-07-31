@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -18,9 +19,25 @@ namespace HeroExplorer.Models
         private const string PrivateKey = "3d4dd2b4e243c385face9e4e03bca9a7ade0c5ba";
         private const string PublicKey = "c071117ff67703709baa3ea7952beb73";
         private const int MaxCharacters = 1500;
+        private const string ImageNotAvailablePath = "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available";
 
+        public static async Task PopulateMarvelCharactersAsync(ObservableCollection<Character> marvelCharacters)
+        {
+            var characterDataWrapper = await GetCharacterDataWrapperAsync();
+            var characters = characterDataWrapper.Data.Characters;
 
-        public static async Task<CharacterDataWrapper> GetCharacterListAsync()
+            foreach (var character in characters)
+            {
+                if (character.Thumbnail != null && character.Thumbnail.Path != "" && character.Thumbnail.Path != ImageNotAvailablePath)
+                {
+                    character.Thumbnail.Small = String.Format($"{character.Thumbnail.Path}/standard_small.{character.Thumbnail.Extension}");
+                    character.Thumbnail.Large = String.Format($"{character.Thumbnail.Path}/portrait_xlarge.{character.Thumbnail.Extension}");
+                    marvelCharacters.Add(character);
+                }
+            }
+        }
+
+        private static async Task<CharacterDataWrapper> GetCharacterDataWrapperAsync()
         {
             var offset = new Random().Next(MaxCharacters);
             var timeStamp = DateTime.Now.Ticks.ToString();
@@ -28,10 +45,10 @@ namespace HeroExplorer.Models
             HttpClient http = new HttpClient();
             var response = await http.GetAsync(url);
             var jsonMessage = await response.Content.ReadAsStringAsync();
-            var serializer = new DataContractJsonSerializer(typeof(CharacterDataWrapper));
-            var ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonMessage));
-            return serializer.ReadObject(ms) as CharacterDataWrapper;
-            //var data = JsonConvert.DeserializeObject<CharacterDataWrapper>(jsonMessage);
+            //var serializer = new DataContractJsonSerializer(typeof(CharacterDataWrapper));
+            //var ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonMessage));
+            //return serializer.ReadObject(ms) as CharacterDataWrapper;
+            return JsonConvert.DeserializeObject<CharacterDataWrapper>(jsonMessage);
         }
 
         private static string CreateHash(string timeStamp) => ComputeMD5(timeStamp + PrivateKey + PublicKey);

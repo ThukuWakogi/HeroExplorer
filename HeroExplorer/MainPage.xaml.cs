@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using HeroExplorer.Models;
+using System.Collections.ObjectModel;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -23,14 +24,20 @@ namespace HeroExplorer
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public ObservableCollection<Character> MarvelCharacters { get; set; } = new ObservableCollection<Character>();
+
         public MainPage()
         {
             this.InitializeComponent();
         }
 
-        private async void Button_ClickAsync(object sender, RoutedEventArgs e)
+        private async void Page_LoadedAsync(object sender, RoutedEventArgs e)
         {
-            var data =await MarvelFacade.GetCharacterListAsync();
+            MyProgressRing.IsActive = true;
+            MyProgressRing.Visibility = Visibility.Visible;
+            await MarvelFacade.PopulateMarvelCharactersAsync(MarvelCharacters);
+            MyProgressRing.IsActive = false;
+            MyProgressRing.Visibility = Visibility.Collapsed;
         }
     }
 }

@@ -11,6 +11,13 @@ namespace HeroExplorer.Models
         public string Name { get; set; }
 
         [JsonProperty("type")]
-        public TypeEnum Type { get; set; }
+        public string Type { get; set; }
+
+        //private TypeEnum TypeEnumConvert(string value)
+        //{
+        //    TypeEnum returningTypeNum;
+        //    if (value == "cover") return TypeEnum.Cover;
+        //    else  return TypeEnum.InteriorStory;
+        //}
     }
 }
